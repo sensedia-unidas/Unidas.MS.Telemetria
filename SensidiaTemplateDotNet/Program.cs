@@ -5,6 +5,7 @@ global using Microsoft.AspNetCore.Mvc;
 global using Newtonsoft.Json;
 using Asp.Versioning;
 using Asp.Versioning.Conventions;
+using Asp.Versioning.ApiExplorer;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
@@ -14,13 +15,21 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using SensidiaTemplateDotNet.Filters;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("V1", new OpenApiInfo() { Title = "API V1", Version = "V1.0" });
+    //options.SwaggerDoc("V2", new OpenApiInfo() { Title = "API V2", Version = "V2.0" });
+    options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+    options.CustomSchemaIds(x => x.FullName);
+});
+
 builder.Services.AddApplicationInsightsTelemetry();
 
 builder.Services.AddApiVersioning(options =>
@@ -30,8 +39,8 @@ builder.Services.AddApiVersioning(options =>
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.ApiVersionReader =     ApiVersionReader.Combine(
         new HeaderApiVersionReader("Api-Version"),
-        new QueryStringApiVersionReader("Query-String-Version"));
-});
+        new QueryStringApiVersionReader("Api-Version"));
+}).EnableApiVersionBinding();
 
 
 
@@ -52,7 +61,7 @@ var app = builder.Build();
 
 var versionSet = app.NewApiVersionSet()
                     .HasApiVersion(1.0)
-                    .HasApiVersion(2.0)
+                    //.HasApiVersion(2.0)
                     .ReportApiVersions()
                     .Build();
 
@@ -60,7 +69,12 @@ var versionSet = app.NewApiVersionSet()
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint($"/swagger/V1/swagger.json", "V1.0");
+        //options.SwaggerEndpoint($"/swagger/V2/swagger.json", "V2.0");
+    }
+  );
 
 
 }
@@ -68,12 +82,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-
-app.MapGet("/GetMessage", () => "This is an example of a minimal API").WithApiVersionSet(versionSet).MapToApiVersion(1.0);
-app.MapGet("/GetMessage2", () => "This is an example of a minimal API 2").WithApiVersionSet(versionSet).MapToApiVersion(2.0);
-app.MapGet("/GetText", () => "This is yet another example of a minimal API").WithApiVersionSet(versionSet).WithApiVersionSet(versionSet).IsApiVersionNeutral();
+//TODO: Versao pronta para versionar, porém o Swagger precisa ser implementado corretamente para separar as versoes e mostrar como chamar cada uma delas
+//app.MapGet("/GetMessage", () => "This is an example of a minimal API").WithApiVersionSet(versionSet).MapToApiVersion(1.0);
+//app.MapGet("/GetMessage", () => "This is an example of a minimal API 2").WithApiVersionSet(versionSet).MapToApiVersion(2.0);
+//app.MapGet("/GetText", () => "This is yet another example of a minimal API").WithApiVersionSet(versionSet).WithApiVersionSet(versionSet).IsApiVersionNeutral();
 
 // GET /weatherforecast?api-version=1.0
+
 
 app.MapGet("/testLog", () =>
 {
@@ -87,8 +102,7 @@ app.MapGet("/testLog", () =>
     app.Logger.LogWarning($"Teste de Log 7 at {DateTime.UtcNow.ToLongTimeString()}");
     app.Logger.LogError($"Teste de Log 8 at {DateTime.UtcNow.ToLongTimeString()}");
     return "ok";
-})
-.WithName("GetTest");
+}).WithApiVersionSet(versionSet).MapToApiVersion(1.0);
 
 
 
