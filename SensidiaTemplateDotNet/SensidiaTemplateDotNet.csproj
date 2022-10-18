@@ -19,4 +19,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Service\Commands\DropOffCar\" />
+    <Folder Include="UserCases\DropOffCar\" />
+    <Folder Include="UserCases\GetCarDetail\" />
+    <Folder Include="UserCases\RegisterCar\" />
+    <Folder Include="UserCases\PickUpCar\" />
+  </ItemGroup>
+
 </Project>
