@@ -16,6 +16,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using SensidiaTemplateDotNet.Filters;
 using Microsoft.OpenApi.Models;
+using SensidiaTemplateDotNet.Service.Commands.PickUpCar;
+using SensidiaTemplateDotNet.Service.Commands.RegisterCar;
+using SensidiaTemplateDotNet.Service.Repositores;
+using SensidiaTemplateDotNet.Infrastructure.InMemoryDataAcess.Repositories;
+using SensidiaTemplateDotNet.UseCases.RegisterCar;
+using SensidiaTemplateDotNet.Infrastructure.InMemoryDataAcess;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +36,19 @@ builder.Services.AddSwaggerGen(options =>
     options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
     options.CustomSchemaIds(x => x.FullName);
 });
+
+
+
+//REPOSITORY
+builder.Services.AddScoped<ICarReadOnlyRepository, CarRepository>();
+builder.Services.AddScoped<ICarWriteOnlyRepository, CarRepository>();
+
+//SERVICE
+builder.Services.AddScoped<IPickUpCarUseCase, PickUpCarUseCase>();
+builder.Services.AddScoped<IRegisterCarUseCase, RegisterUseCase>();
+
+builder.Services.AddSingleton<SensidiaTemplateDotNet.Infrastructure.InMemoryDataAcess.Context>();
+
 
 builder.Services.AddApplicationInsightsTelemetry();
 
@@ -89,6 +109,15 @@ app.UseHttpsRedirection();
 
 // GET /weatherforecast?api-version=1.0
 
+app.MapPost("/car/registerAsync", async (RegisterCarRequest request, IRegisterCarUseCase registerCar) =>
+{
+    app.Logger.LogInformation($"Novo registro de carro solicitado", request);
+
+    var response = await registerCar.Execute(request.Description, request.Plate);
+
+    return response;
+
+});
 
 app.MapGet("/testLog", () =>
 {
