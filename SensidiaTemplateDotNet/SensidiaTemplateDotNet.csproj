@@ -23,7 +23,6 @@
     <Folder Include="Service\Commands\DropOffCar\" />
     <Folder Include="UseCases\DropOffCar\" />
     <Folder Include="UseCases\GetCarDetail\" />
-    <Folder Include="UseCases\PickUpCar\" />
   </ItemGroup>
 
 </Project>

@@ -23,6 +23,7 @@ using SensidiaTemplateDotNet.Infrastructure.InMemoryDataAcess.Repositories;
 using SensidiaTemplateDotNet.UseCases.RegisterCar;
 using SensidiaTemplateDotNet.Infrastructure.InMemoryDataAcess;
 using Microsoft.Extensions.Configuration;
+using SensidiaTemplateDotNet.UseCases.PickUpCar;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -117,7 +118,17 @@ app.MapPost("/car/registerAsync", async (RegisterCarRequest request, IRegisterCa
 
     return response;
 
-});
+}).WithApiVersionSet(versionSet).MapToApiVersion(1.0);
+
+app.MapPost("/car/pickupAsync", async (PickUpCarRequest request, IPickUpCarUseCase pickupCar) =>
+{
+    app.Logger.LogInformation($"Novo registro de carro solicitado", request);
+
+    var response = await pickupCar.Execute(request.CarId, request.RentedBy, request.Latitude, request.Longitude);
+
+    return response;
+
+}).WithApiVersionSet(versionSet).MapToApiVersion(1.0);
 
 app.MapGet("/testLog", () =>
 {

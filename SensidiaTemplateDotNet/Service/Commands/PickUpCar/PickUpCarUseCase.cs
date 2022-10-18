@@ -22,7 +22,9 @@
             if (car == null)
                 throw new CarNotFoundException($"O carro {carId} não existe");
 
-            var pickUp = new PickUpCar(carId, rentedBy, latitude, longitude);
+           
+
+            var pickUp = car.Pickup(rentedBy, latitude, longitude);
 
             await this.carWriteOnlyRepository.Update(car, pickUp);
 

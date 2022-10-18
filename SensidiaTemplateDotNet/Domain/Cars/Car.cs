@@ -30,14 +30,17 @@ namespace SensidiaTemplateDotNet.Domain.Cars
             _transactions = new CarTransactionCollection();
         }
 
-        public void Pickup(string rentedBy, long latitude, long longitude)
+        public PickUpCar Pickup(string rentedBy, long latitude, long longitude)
         {
             if (_transactions.GetLastTransactionType() == "PickUp")
                 throw new CarCannotBePickupExcepction($"O carro {Id} já está alugado!");
 
+
             var pickUp = new PickUpCar(Id, rentedBy, latitude, longitude);
 
-            _transactions.Add(pickUp); 
+            _transactions.Add(pickUp);
+
+            return pickUp;
         }
 
         public (long latitude, long longitude) GetLastPosition()
