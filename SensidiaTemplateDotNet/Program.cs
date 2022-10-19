@@ -24,6 +24,8 @@ using SensidiaTemplateDotNet.UseCases.RegisterCar;
 using SensidiaTemplateDotNet.Infrastructure.InMemoryDataAcess;
 using Microsoft.Extensions.Configuration;
 using SensidiaTemplateDotNet.UseCases.PickUpCar;
+using FluentValidation;
+using Swashbuckle.AspNetCore.Annotations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,7 @@ builder.Services.AddSwaggerGen(options =>
     options.CustomSchemaIds(x => x.FullName);
 });
 
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 
 //REPOSITORY
@@ -49,6 +52,7 @@ builder.Services.AddScoped<IPickUpCarUseCase, PickUpCarUseCase>();
 builder.Services.AddScoped<IRegisterCarUseCase, RegisterUseCase>();
 
 builder.Services.AddSingleton<SensidiaTemplateDotNet.Infrastructure.InMemoryDataAcess.Context>();
+builder.Services.AddScoped<IMinimalValidator, MinimalValidator>();
 
 
 builder.Services.AddApplicationInsightsTelemetry();
@@ -58,7 +62,7 @@ builder.Services.AddApiVersioning(options =>
     options.DefaultApiVersion = new ApiVersion(1, 0);
     options.ReportApiVersions = true;
     options.AssumeDefaultVersionWhenUnspecified = true;
-    options.ApiVersionReader =     ApiVersionReader.Combine(
+    options.ApiVersionReader = ApiVersionReader.Combine(
         new HeaderApiVersionReader("Api-Version"),
         new QueryStringApiVersionReader("Api-Version"));
 }).EnableApiVersionBinding();
@@ -67,7 +71,7 @@ builder.Services.AddApiVersioning(options =>
 
 
 builder.Services.AddMvc(options =>
-{   
+{
     //options.Filters.Add(typeof(DomainExceptionFilter));
     options.Filters.Add(typeof(ValidateModelAttribute));
 });
@@ -83,31 +87,6 @@ var app = builder.Build();
 
 
 app.UseMiddleware(typeof(ErrorHandlingMiddleware));
-//app.UseExceptionHandler(exceptionHandlerApp =>
-// {
-//     exceptionHandlerApp.Run(async context =>
-//     {
-//         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-
-//         // using static System.Net.Mime.MediaTypeNames;
-//         context.Response.ContentType = Text.Plain;
-
-//         await context.Response.WriteAsync("An exception was thrown.");
-
-//         var exceptionHandlerPathFeature =
-//             context.Features.Get<IExceptionHandlerPathFeature>();
-
-//         if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
-//         {
-//             await context.Response.WriteAsync(" The file was not found.");
-//         }
-
-//         if (exceptionHandlerPathFeature?.Path == "/")
-//         {
-//             await context.Response.WriteAsync(" Page: Home.");
-//         }
-//     });
-// });
 
 var versionSet = app.NewApiVersionSet()
                     .HasApiVersion(1.0)
@@ -129,6 +108,8 @@ if (app.Environment.IsDevelopment())
 
 }
 
+
+
 app.UseHttpsRedirection();
 
 
@@ -149,55 +130,23 @@ app.MapPost("/car/registerAsync", async (RegisterCarRequest request, IRegisterCa
 
 }).WithApiVersionSet(versionSet).MapToApiVersion(1.0);
 
-app.MapPost("/car/pickupAsync", async (PickUpCarRequest request, IPickUpCarUseCase pickupCar) =>
-{
 
+app.MapPost("/car/pickupAsync", async (PickUpCarRequest request, IPickUpCarUseCase pickupCar, IValidator<PickUpCarRequest> validator) =>
+{
     app.Logger.LogInformation($"Novo registro de carro solicitado", request);
 
+    var validationResult = validator.Validate(request);
+    if (!validationResult.IsValid)
+        return Results.ValidationProblem(validationResult.ToDictionary());
+
+
     var response = await pickupCar.Execute(request.CarId, request.RentedBy, request.Latitude, request.Longitude);
+    return Results.Ok(response);
 
-    return response;
-
-}).WithApiVersionSet(versionSet).MapToApiVersion(1.0);
-
-app.MapGet("/testLog", () =>
-{
-    app.Logger.LogCritical("TESTE CRITICO Primeiro Teste page visited at {DT}",
-            DateTime.UtcNow.ToLongTimeString());
+}).Produces(200).ProducesValidationProblem(400).WithApiVersionSet(versionSet).MapToApiVersion(1.0);
 
 
 
-    app.Logger.LogCritical($"Teste de Log 5 at {DateTime.UtcNow.ToLongTimeString()}");
-    app.Logger.LogDebug($"Teste de Log 6 at {DateTime.UtcNow.ToLongTimeString()}");
-    app.Logger.LogWarning($"Teste de Log 7 at {DateTime.UtcNow.ToLongTimeString()}");
-    app.Logger.LogError($"Teste de Log 8 at {DateTime.UtcNow.ToLongTimeString()}");
-    return "ok";
-}).WithApiVersionSet(versionSet).MapToApiVersion(1.0);
 
-
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
 
 app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

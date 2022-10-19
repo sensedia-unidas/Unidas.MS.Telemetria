@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SensidiaTemplateDotNet.Filters
 {
+
+    
     public sealed class ValidateModelAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
