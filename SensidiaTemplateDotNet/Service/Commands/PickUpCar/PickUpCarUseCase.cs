@@ -20,7 +20,7 @@
         {
             Car car = await carReadOnlyRepository.Get(carId);
             if (car == null)
-                throw new CarNotFoundException($"O carro {carId} não existe");
+                throw new Service.CarNotFoundException($"O carro {carId} não existe");
 
            
 

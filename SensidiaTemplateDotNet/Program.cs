@@ -67,8 +67,8 @@ builder.Services.AddApiVersioning(options =>
 
 
 builder.Services.AddMvc(options =>
-{
-    options.Filters.Add(typeof(DomainExceptionFilter));
+{   
+    //options.Filters.Add(typeof(DomainExceptionFilter));
     options.Filters.Add(typeof(ValidateModelAttribute));
 });
 
@@ -79,6 +79,35 @@ builder.Services.AddApplicationInsightsTelemetry(options =>
 });
 
 var app = builder.Build();
+
+
+
+app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+//app.UseExceptionHandler(exceptionHandlerApp =>
+// {
+//     exceptionHandlerApp.Run(async context =>
+//     {
+//         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+//         // using static System.Net.Mime.MediaTypeNames;
+//         context.Response.ContentType = Text.Plain;
+
+//         await context.Response.WriteAsync("An exception was thrown.");
+
+//         var exceptionHandlerPathFeature =
+//             context.Features.Get<IExceptionHandlerPathFeature>();
+
+//         if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
+//         {
+//             await context.Response.WriteAsync(" The file was not found.");
+//         }
+
+//         if (exceptionHandlerPathFeature?.Path == "/")
+//         {
+//             await context.Response.WriteAsync(" Page: Home.");
+//         }
+//     });
+// });
 
 var versionSet = app.NewApiVersionSet()
                     .HasApiVersion(1.0)
@@ -122,6 +151,7 @@ app.MapPost("/car/registerAsync", async (RegisterCarRequest request, IRegisterCa
 
 app.MapPost("/car/pickupAsync", async (PickUpCarRequest request, IPickUpCarUseCase pickupCar) =>
 {
+
     app.Logger.LogInformation($"Novo registro de carro solicitado", request);
 
     var response = await pickupCar.Execute(request.CarId, request.RentedBy, request.Latitude, request.Longitude);

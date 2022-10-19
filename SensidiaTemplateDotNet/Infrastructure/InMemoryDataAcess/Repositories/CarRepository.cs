@@ -42,7 +42,7 @@ namespace SensidiaTemplateDotNet.Infrastructure.InMemoryDataAcess.Repositories
             Entities.Car? carEntity = _context.Cars.SingleOrDefault(e => e.Id == id);
 
             if (carEntity == null)
-                throw new Infrastructure.InfrastructureException($"Carro {id} não existe");
+                throw new Infrastructure.CarNotFoundException($"Carro {id} não existe");
 
             List<ICarTransaction> carTransactions = new List<ICarTransaction>();
 
