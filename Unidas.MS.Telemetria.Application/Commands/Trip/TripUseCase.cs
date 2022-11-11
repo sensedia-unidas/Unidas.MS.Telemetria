@@ -13,6 +13,7 @@ using Unidas.MS.Telemetria.Application.ViewModels.SubTrip;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Trip.Source;
 using Unidas.MS.Telemetria.Application.ViewModels.Trip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
+using Unidas.MS.Telemetria.Application.Services.Trip.Source;
 
 namespace Unidas.MS.Telemetria.Application.Commands.Trip
 {

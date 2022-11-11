@@ -13,6 +13,7 @@ using Unidas.MS.Telemetria.Application.ViewModels.Event;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
 using Unidas.MS.Telemetria.Application.ViewModels.Vehicle;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Vehicle.Source;
+using Unidas.MS.Telemetria.Application.Services.Vehicle.Source;
 
 namespace Unidas.MS.Telemetria.Application.Commands.Vehicle
 {
