@@ -12,6 +12,16 @@ using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Microsoft.EntityFrameworkCore;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.Commands.HistoricalEvent;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Driver;
+using Unidas.MS.Telemetria.Application.Commands.Driver;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Event;
+using Unidas.MS.Telemetria.Application.Commands.Event;
+using Unidas.MS.Telemetria.Application.Commands.SubTrip;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
+using Unidas.MS.Telemetria.Application.Commands.Trip;
+using Unidas.MS.Telemetria.Application.Commands.Vehicle;
 
 namespace Unidas.MS.Telemetria.Infra.IoC
 {
@@ -29,6 +39,11 @@ namespace Unidas.MS.Telemetria.Infra.IoC
             services.AddScoped<IRegisterCarUseCase, RegisterUseCase>();
             services.AddScoped<IClientMiX, ClientMiX>();
             services.AddScoped<IHistoricalEventUseCase, HistoricalEventUseCase>();
+            services.AddScoped<IDriverUseCase, DriverUseCase>();
+            services.AddScoped<IEventUseCase, EventUseCase>();
+            services.AddScoped<ISubTripUseCase, SubTripUseCase>();
+            services.AddScoped<IVehicleUseCase, VehicleUseCase>();
+            services.AddScoped<ITripUseCase, TripUseCase>();
 
 
 

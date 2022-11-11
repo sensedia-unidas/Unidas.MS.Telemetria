@@ -5,28 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Driver;
-using Unidas.MS.Telemetria.Application.Interfaces.Services.HistoricalEvent.Source;
+using Unidas.MS.Telemetria.Application.Interfaces.Services.Driver.Source;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
-using Unidas.MS.Telemetria.Application.Services.HistoricalEvent.Source;
+using Unidas.MS.Telemetria.Application.Services.Driver.Source;
 using Unidas.MS.Telemetria.Application.Services;
 using Unidas.MS.Telemetria.Application.ViewModels.Driver;
-using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
-using Unidas.MS.Telemetria.Application.Interfaces.Services.Driver.Source;
-using Unidas.MS.Telemetria.Application.ViewModels.HistoricalEvent;
-using Unidas.MS.Telemetria.Application.Services.Driver.Source;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Event;
+using Unidas.MS.Telemetria.Application.ViewModels.Event;
+using Unidas.MS.Telemetria.Application.Interfaces.Services.Event.Source;
+using Unidas.MS.Telemetria.Application.Services.Event.Source;
 
-namespace Unidas.MS.Telemetria.Application.Commands.Driver
+namespace Unidas.MS.Telemetria.Application.Commands.Event
 {
-    public class DriverUseCase : IDriverUseCase
+    public class EventUseCase : IEventUseCase
     {
 
         private IClientMiX _client;
-        public DriverUseCase(IClientMiX client)
+        public EventUseCase(IClientMiX client)
         {
             _client = client;
         }
 
-        public async Task<DriverVM> Execute(int sourceId, string organizationGroupIds)
+        public async Task<EventVM> Execute(int sourceId, string organizationGroupIds)
         {
             List<long> listOrganizationIds = null;
             if (!String.IsNullOrEmpty(organizationGroupIds))
@@ -34,10 +34,10 @@ namespace Unidas.MS.Telemetria.Application.Commands.Driver
 
             var source = this.Source(sourceId);
 
-            var driverResults = new List<DriverResultsVM>();
+            var eventResults = new List<EventResultsVM>();
 
             if (listOrganizationIds == null || listOrganizationIds.Count == 0)
-                throw new OrganizationIdIsNullException("Driver", (SourceEnum)sourceId);
+                throw new OrganizationIdIsNullException("Event", (SourceEnum)sourceId);
             else
             {
 
@@ -47,10 +47,10 @@ namespace Unidas.MS.Telemetria.Application.Commands.Driver
                 {
                     taskList.Add(Task.Run(async () =>
                     {
-                        DriverResultsVM driverResult = await source.Get(organziationId);
+                        EventResultsVM eventResult = await source.Get(organziationId);
 
-                        if (driverResult != null)
-                            driverResults.Add(driverResult);
+                        if (eventResult != null)
+                            eventResults.Add(eventResult);
                     }));
 
                 });
@@ -59,20 +59,20 @@ namespace Unidas.MS.Telemetria.Application.Commands.Driver
 
             }
 
-            var driverVM = new DriverVM()
+            var eventVM = new EventVM()
             {
-                Results = driverResults,
+                Results = eventResults,
                 SourceId = sourceId
             };
 
-            return await Task.FromResult(driverVM);
+            return await Task.FromResult(eventVM);
 
         }
 
-        private IDriverSource Source(int id)
+        private IEventSource Source(int id)
         {
             if (id == (int)SourceEnum.MiX)
-                return new MiXDriver(_client);
+                return new MiXEvent(_client);
 
 
             throw new SourceIdNotFoundException();
