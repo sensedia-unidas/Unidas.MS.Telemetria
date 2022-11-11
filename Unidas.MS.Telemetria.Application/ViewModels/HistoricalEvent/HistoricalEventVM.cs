@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Unidas.MS.Telemetria.Application.ViewModels.Historical
+namespace Unidas.MS.Telemetria.Application.ViewModels.HistoricalEvent
 {
     public sealed class HistoricalEventVM
     {
@@ -16,7 +16,7 @@ namespace Unidas.MS.Telemetria.Application.ViewModels.Historical
     public sealed class HistoricalEventResultsVM
     {
         public bool? HasMoreResult { get; set; }
-        public string OrganizationId { get; set; }
+        public long OrganizationId { get; set; }
         public object Result { get; set; }
     }
 }

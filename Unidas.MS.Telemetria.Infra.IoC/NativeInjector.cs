@@ -38,7 +38,11 @@ namespace Unidas.MS.Telemetria.Infra.IoC
             
 
             services.AddDbContext<TelemetriaContext>(x => x.UseSqlServer(connectionString));
+
             
+
+
+
         }
     }
 }

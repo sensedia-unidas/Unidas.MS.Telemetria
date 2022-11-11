@@ -15,6 +15,8 @@ using Unidas.MS.Telemetria.Infra.IoC;
 using Microsoft.OpenApi.Models;
 using Unidas.MS.Telemetria.Application.Services.MiX;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.HistoricalEvent;
+using Unidas.MS.Telemetria.Infra;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +36,8 @@ builder.Services.AddSwaggerGen(options =>
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 NativeInjector.RegisterServices(builder.Services, connectionString);
+
+
 
 //builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
@@ -94,13 +98,10 @@ app.UseHttpsRedirection();
 // GET /GetMessage
 
 
-app.MapGet("/historicalEvents/", async (IHistoricalEventUseCase historicalEventCmd, string sinceDate, int sourceId, int quantity, string organizationIds ) =>
+app.MapGet("/historicalEvents/", async (IHistoricalEventUseCase historicalEventCmd, string sinceDate, int sourceId, int quantity, string organizationIds) =>
 {
-    List<string> listOrganizationIds = null;
-    if (!String.IsNullOrEmpty(organizationIds))
-        listOrganizationIds = organizationIds.Split(",").ToList();
-
-    var historicalEvents = await historicalEventCmd.Execute(sinceDate, sourceId, quantity, listOrganizationIds );
+        
+    var historicalEvents = await historicalEventCmd.Execute(sinceDate, sourceId, quantity, organizationIds );
     return historicalEvents;
 });
 

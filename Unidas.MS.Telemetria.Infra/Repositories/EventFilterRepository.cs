@@ -19,16 +19,15 @@ namespace Unidas.MS.Telemetria.Infra.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<long>> GetAll(Guid id)
+        public async Task<IEnumerable<long>> GetAll()
         {
 
-            var name = Console.ReadLine();
 
 
             var query =  _context.Events
               .Where(x => x.Active)
               .AsEnumerable()
-              .Select(x => x.Value);
+              .Select(x => x.Id);
 
             return query;
 

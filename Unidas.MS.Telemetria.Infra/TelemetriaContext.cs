@@ -12,7 +12,10 @@ namespace Unidas.MS.Telemetria.Infra
     {
 
         public TelemetriaContext(DbContextOptions<TelemetriaContext> options) : base(options)
-        { }
+        {
+            //Database.EnsureCreated();
+            Database.Migrate();
+        }
 
 
         public DbSet<EventFilter> Events { get; set; }

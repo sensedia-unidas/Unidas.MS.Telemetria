@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.HistoricalEvent.Source;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
-using Unidas.MS.Telemetria.Application.ViewModels.Historical;
+using Unidas.MS.Telemetria.Application.ViewModels.HistoricalEvent;
+using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
 
 namespace Unidas.MS.Telemetria.Application.Services.HistoricalEvent.Source
 {
@@ -14,25 +15,40 @@ namespace Unidas.MS.Telemetria.Application.Services.HistoricalEvent.Source
     {
 
         IClientMiX _client;
-        public MiXHistoricalEvent(IClientMiX client)
+        IEventFilterReadOnlyRepository _eventFilterReadRepository;
+        public MiXHistoricalEvent(IClientMiX client, IEventFilterReadOnlyRepository eventFilterReadRepository)
         {
             _client = client;
+            _eventFilterReadRepository = eventFilterReadRepository;
 
         }
-        public Task<HistoricalEventResultsVM> Get(string sinceDate, int quantity, string? organizationId = null)
+        public async Task<HistoricalEventResultsVM> Get(string sinceDate, int quantity, long? organizationId = null)
         {
 
-            if (String.IsNullOrEmpty(organizationId))
+            if (organizationId == null)
                 throw new OrganizationIdIsNullException("HistoricalEvent", SourceEnum.MiX);
 
             if (String.IsNullOrEmpty(sinceDate))
                 throw new SinceDateIsNullException();
 
+            var eventsFilter = await _eventFilterReadRepository.GetAll();
+
+
+            var resultFromMiX = await _client.Events.GetCreatedSinceForOrganisationFilteredAsync(organizationId.Value, sinceDate, quantity, eventsFilter.ToList());
+            //var resultFromMiX = await _client.Events.GetCreatedSinceForOrganisationAsync(organizationId.Value, sinceDate, quantity );
+
+            
+            var vm = new HistoricalEventResultsVM();
+            vm.Result = resultFromMiX.Items;
+            vm.OrganizationId = organizationId.Value;
+            vm.HasMoreResult = resultFromMiX.HasMoreItems;
+            
+            
 
 
             //_client.Events.GetCreatedSinceForOrganisationFiltered
 
-            return null;
+            return vm;
 
         }
     }
