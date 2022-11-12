@@ -7,6 +7,7 @@ using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.SubTrip.Source;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Trip.Source;
+using Unidas.MS.Telemetria.Application.ViewModels.Driver;
 using Unidas.MS.Telemetria.Application.ViewModels.SubTrip;
 using Unidas.MS.Telemetria.Application.ViewModels.Trip;
 
@@ -31,19 +32,28 @@ namespace Unidas.MS.Telemetria.Application.Services.Trip.Source
                 throw new SinceDateIsNullException();
 
 
-
-            var resultFromMiX = await _client.Trips.GetCreatedSinceForOrganisationAsync(organizationId.Value, sinceDate, quantity, false);
-
-            
-
-            var vm = new TripResultsVM();
-            vm.Result = resultFromMiX;
-            vm.OrganizationId = organizationId.Value;
-            vm.HasMoreResult = resultFromMiX.HasMoreItems;
+            try
+            {
+                var resultFromMiX = await _client.Trips.GetCreatedSinceForOrganisationAsync(organizationId.Value, sinceDate, quantity, false);
 
 
 
-            return vm;
+                var vm = new TripResultsVM();
+                vm.Result = resultFromMiX;
+                vm.OrganizationId = organizationId.Value;
+                vm.HasMoreResult = resultFromMiX.HasMoreItems;
+
+                return vm;
+            }
+            catch (Exception ex)
+            {
+                return new TripResultsVM()
+                {
+                    OrganizationId = organizationId.Value
+                };
+            }
+
+
 
         }
     }
