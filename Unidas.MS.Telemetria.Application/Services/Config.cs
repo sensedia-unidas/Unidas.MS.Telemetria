@@ -11,8 +11,8 @@ namespace Unidas.MS.Telemetria.Application.Services
         {
             var builder = new ConfigurationBuilder()
                 //.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appSettings.Development.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
             configuration = builder.Build();
         }
