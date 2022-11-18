@@ -32,6 +32,9 @@ namespace Unidas.MS.Telemetria.Infra.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
+                    b.Property<long>("Value")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.ToTable("Events");

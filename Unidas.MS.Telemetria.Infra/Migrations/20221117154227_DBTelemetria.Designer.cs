@@ -11,8 +11,8 @@ using Unidas.MS.Telemetria.Infra;
 namespace Unidas.MS.Telemetria.Infra.Migrations
 {
     [DbContext(typeof(TelemetriaContext))]
-    [Migration("20221110204954_FirstDatabase")]
-    partial class FirstDatabase
+    [Migration("20221117154227_DBTelemetria")]
+    partial class DBTelemetria
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,9 @@ namespace Unidas.MS.Telemetria.Infra.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
+
+                    b.Property<long>("Value")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 

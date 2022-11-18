@@ -5,7 +5,7 @@
 namespace Unidas.MS.Telemetria.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstDatabase : Migration
+    public partial class DBTelemetria : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,6 +16,7 @@ namespace Unidas.MS.Telemetria.Infra.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Value = table.Column<long>(type: "bigint", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

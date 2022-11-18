@@ -22,6 +22,9 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
 using Unidas.MS.Telemetria.Application.Commands.Trip;
 using Unidas.MS.Telemetria.Application.Commands.Vehicle;
+using Unidas.MS.Telemetria.Application.Services.Localization.Source;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Localization;
+using Unidas.MS.Telemetria.Application.Commands.Localization;
 
 namespace Unidas.MS.Telemetria.Infra.IoC
 {
@@ -37,22 +40,24 @@ namespace Unidas.MS.Telemetria.Infra.IoC
             //SERVICE
             services.AddScoped<IPickUpCarUseCase, PickUpCarUseCase>();
             services.AddScoped<IRegisterCarUseCase, RegisterUseCase>();
-            services.AddScoped<IClientMiX, ClientMiX>();
             services.AddScoped<IHistoricalEventUseCase, HistoricalEventUseCase>();
             services.AddScoped<IDriverUseCase, DriverUseCase>();
             services.AddScoped<IEventUseCase, EventUseCase>();
             services.AddScoped<ISubTripUseCase, SubTripUseCase>();
             services.AddScoped<IVehicleUseCase, VehicleUseCase>();
             services.AddScoped<ITripUseCase, TripUseCase>();
+            services.AddScoped<ILocalizationUseCase, LocalizationUseCase>();
 
 
 
-            services.AddSingleton<InMemoryDbContext>();            
+            services.AddSingleton<IClientMiX, ClientMiX>();
+            services.AddSingleton<InMemoryDbContext>();
+            services.AddSingleton<MiXLocalization>();
             services.AddSingleton<IMinimalValidator, MinimalValidator>();
 
             
 
-            services.AddDbContext<TelemetriaContext>(x => x.UseSqlServer(connectionString));
+            services.AddDbContext<TelemetriaContext>(x => x.UseSqlServer(connectionString), ServiceLifetime.Transient);
 
             
 

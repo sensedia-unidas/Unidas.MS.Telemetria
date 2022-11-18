@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Extensions.DependencyInjection;
 using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.HistoricalEvent.Source;
@@ -14,11 +15,14 @@ namespace Unidas.MS.Telemetria.Application.Commands.HistoricalEvent
     public class HistoricalEventUseCase : IHistoricalEventUseCase
     {
         private IClientMiX _client;
+        
         IEventFilterReadOnlyRepository _eventFilterReadRepository;
-        public HistoricalEventUseCase(IClientMiX client, IEventFilterReadOnlyRepository eventFilterReadRepository)
+        IServiceScopeFactory _serviceScopeFactory;
+        public HistoricalEventUseCase(IClientMiX client, IServiceScopeFactory serviceScopeFactory)
         {
+            
             _client = client;
-            _eventFilterReadRepository = eventFilterReadRepository;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public async Task<HistoricalEventVM> Execute(string sinceDate, int sourceId, int quantity, string organizationIds)
@@ -69,7 +73,7 @@ namespace Unidas.MS.Telemetria.Application.Commands.HistoricalEvent
         private IHistoricalEventSource Source(int id)
         {
             if (id == (int)SourceEnum.MiX)
-                return new MiXHistoricalEvent(_client, _eventFilterReadRepository);
+                return new MiXHistoricalEvent(_client, _serviceScopeFactory);
 
 
             throw new SourceIdNotFoundException();

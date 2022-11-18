@@ -26,8 +26,7 @@ namespace Unidas.MS.Telemetria.Infra.Repositories
 
             var query =  _context.Events
               .Where(x => x.Active)
-              .AsEnumerable()
-              .Select(x => x.Id);
+              .Select(x => x.Value);
 
             return query;
 

@@ -21,6 +21,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
 using Unidas.MS.Telemetria.Application.ViewModels.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,49 +68,57 @@ app.UseHttpsRedirection();
 //app.Logger.LogInformation($"Novo registro de carro solicitado", request);
 
 
-app.MapGet("/historicalEvents/", async (IHistoricalEventUseCase historicalEventCmd, string sinceDate, int sourceId, int quantity, string organizationIds) =>
+app.MapGet("/mix/historicalEvents/", async (IHistoricalEventUseCase historicalEventCmd, string sinceDate,  int quantity, string organizationIds) =>
 {
         
-    var historicalEvents = await historicalEventCmd.Execute(sinceDate, sourceId, quantity, organizationIds );
+    var historicalEvents = await historicalEventCmd.Execute(sinceDate, 0, quantity, organizationIds );
    
     return historicalEvents;
 });
 
-app.MapGet("/drivers/", async (IDriverUseCase driverCmd, int sourceId,string organizationIds) =>
+app.MapGet("/mix/drivers/", async (IDriverUseCase driverCmd, string organizationIds) =>
 {
 
-    var drivers = await driverCmd.Execute(sourceId, organizationIds);
+    var drivers = await driverCmd.Execute(0, organizationIds);
     return drivers;
 });
 
-app.MapGet("/events/", async (IEventUseCase eventCmd, int sourceId, string organizationIds) =>
+app.MapGet("/mix/events/", async (IEventUseCase eventCmd,  string organizationIds) =>
 {
 
-    var events = await eventCmd.Execute(sourceId, organizationIds);
+    var events = await eventCmd.Execute(0, organizationIds);
     return events;
 });
 
-app.MapGet("/subTrips/", async (ISubTripUseCase subTripCmd, string sinceDate, int sourceId, int quantity, string organizationIds) =>
+app.MapGet("/mix/subTrips/", async (ISubTripUseCase subTripCmd, string sinceDate,  int quantity, string organizationIds) =>
 {
 
-    var subTrips = await subTripCmd.Execute(sinceDate, sourceId, quantity, organizationIds);
+    var subTrips = await subTripCmd.Execute(sinceDate, 0, quantity, organizationIds);
     return subTrips;
 });
 
 
-app.MapGet("/vehicles/", async (IVehicleUseCase vehicleCmd,  int sourceId, string organizationIds) =>
+app.MapGet("/mix/vehicles/", async (IVehicleUseCase vehicleCmd,   string organizationIds) =>
 {
 
-    var vehicles = await vehicleCmd.Execute( sourceId,  organizationIds);
+    var vehicles = await vehicleCmd.Execute( 0,  organizationIds);
     return vehicles;
 });
 
 
-app.MapGet("/trips/", async (ITripUseCase tripCmd, string sinceDate, int sourceId, int quantity, string organizationIds) =>
+app.MapGet("/mix/trips/", async (ITripUseCase tripCmd, string sinceDate,  int quantity, string organizationIds) =>
 {
 
-    var trips = await tripCmd.Execute(sinceDate, sourceId, quantity, organizationIds);
+    var trips = await tripCmd.Execute(sinceDate, 0, quantity, organizationIds);
     return trips;
+});
+
+app.MapGet("/mix/locations/", async (ILocalizationUseCase localizationCmd, string sinceDate,  int quantity, string organizationIds) =>
+{
+
+    var locations = await localizationCmd.Execute(sinceDate, 0, quantity, organizationIds);
+
+    return locations;
 });
 
 

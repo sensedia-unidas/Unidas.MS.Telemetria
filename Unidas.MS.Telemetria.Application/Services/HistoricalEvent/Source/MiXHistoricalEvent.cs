@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +16,12 @@ namespace Unidas.MS.Telemetria.Application.Services.HistoricalEvent.Source
     {
 
         IClientMiX _client;
-        IEventFilterReadOnlyRepository _eventFilterReadRepository;
-        public MiXHistoricalEvent(IClientMiX client, IEventFilterReadOnlyRepository eventFilterReadRepository)
+        IServiceScopeFactory _serviceScopeFactory;
+
+        public MiXHistoricalEvent(IClientMiX client, IServiceScopeFactory serviceScopeFactory)
         {
             _client = client;
-            _eventFilterReadRepository = eventFilterReadRepository;
+            _serviceScopeFactory = serviceScopeFactory;
 
         }
         public async Task<HistoricalEventResultsVM> Get(string sinceDate, int quantity, long? organizationId = null)
@@ -31,24 +33,30 @@ namespace Unidas.MS.Telemetria.Application.Services.HistoricalEvent.Source
             if (String.IsNullOrEmpty(sinceDate))
                 throw new SinceDateIsNullException();
 
-            var eventsFilter = await _eventFilterReadRepository.GetAll();
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var eventFilterReadRepository = scope.ServiceProvider.GetService<IEventFilterReadOnlyRepository>();
+
+                IEnumerable<long> eventsFilter = await eventFilterReadRepository.GetAll();
 
 
-            var resultFromMiX = await _client.Events.GetCreatedSinceForOrganisationFilteredAsync(organizationId.Value, sinceDate, quantity, eventsFilter.ToList());
-            //var resultFromMiX = await _client.Events.GetCreatedSinceForOrganisationAsync(organizationId.Value, sinceDate, quantity );
-
-            
-            var vm = new HistoricalEventResultsVM();
-            vm.Result = resultFromMiX.Items;
-            vm.OrganizationId = organizationId.Value;
-            vm.HasMoreResult = resultFromMiX.HasMoreItems;
-            
-            
+                var resultFromMiX = await _client.Events.GetCreatedSinceForOrganisationFilteredAsync(organizationId.Value, sinceDate, quantity, eventsFilter.ToList());
+                //var resultFromMiX = await _client.Events.GetCreatedSinceForOrganisationAsync(organizationId.Value, sinceDate, quantity );
 
 
-            //_client.Events.GetCreatedSinceForOrganisationFiltered
+                var vm = new HistoricalEventResultsVM();
+                vm.Result = resultFromMiX.Items;
+                vm.OrganizationId = organizationId.Value;
+                vm.HasMoreResult = resultFromMiX.HasMoreItems;
 
-            return vm;
+
+
+
+
+                return vm;
+            }
+
+           
 
         }
     }
