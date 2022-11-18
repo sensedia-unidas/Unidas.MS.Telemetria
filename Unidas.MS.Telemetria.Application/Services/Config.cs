@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace Unidas.MS.Telemetria.Application.Services
 {
@@ -25,7 +24,7 @@ namespace Unidas.MS.Telemetria.Application.Services
 
         public static string GetFromAppSettings(string name)
         {
-            return Config.Get($"ApplicationSettings:{name}"); 
+            return Config.Get($"ApplicationSettings:{name}");
         }
 
         public static IConfigurationSection GetSection(string name)

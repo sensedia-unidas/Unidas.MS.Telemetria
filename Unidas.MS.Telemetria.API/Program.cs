@@ -3,25 +3,16 @@ global using Newtonsoft.Json;
 global using System;
 global using System.Linq;
 global using System.Net;
-using FluentValidation;
-using Unidas.MS.Telemetria.API.Helpers;
-using Unidas.MS.Telemetria.Application.Interfaces.Commands.PickUpCar;
-using Unidas.MS.Telemetria.Application.Interfaces.Commands.RegisterCar;
-
-using Unidas.MS.Telemetria.Application.ViewModels.Car.Requests;
-using Unidas.MS.Telemetria.Infra.IoC;
 using Microsoft.OpenApi.Models;
-using Unidas.MS.Telemetria.Application.Services.MiX;
-using Unidas.MS.Telemetria.Application.Interfaces.Commands.HistoricalEvent;
-using Unidas.MS.Telemetria.Infra;
-using Microsoft.Extensions.Hosting;
+using Unidas.MS.Telemetria.API.Helpers;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Driver;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Event;
-using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
-using Unidas.MS.Telemetria.Application.ViewModels.HistoricalEvent;
-using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
-using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Localization;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
+using Unidas.MS.Telemetria.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,11 +59,11 @@ app.UseHttpsRedirection();
 //app.Logger.LogInformation($"Novo registro de carro solicitado", request);
 
 
-app.MapGet("/mix/historicalEvents/", async (IHistoricalEventUseCase historicalEventCmd, string sinceDate,  int quantity, string organizationIds) =>
+app.MapGet("/mix/historicalEvents/", async (IHistoricalEventUseCase historicalEventCmd, string sinceDate, int quantity, string organizationIds) =>
 {
-        
-    var historicalEvents = await historicalEventCmd.Execute(sinceDate, 0, quantity, organizationIds );
-   
+
+    var historicalEvents = await historicalEventCmd.Execute(sinceDate, 0, quantity, organizationIds);
+
     return historicalEvents;
 });
 
@@ -83,14 +74,14 @@ app.MapGet("/mix/drivers/", async (IDriverUseCase driverCmd, string organization
     return drivers;
 });
 
-app.MapGet("/mix/events/", async (IEventUseCase eventCmd,  string organizationIds) =>
+app.MapGet("/mix/events/", async (IEventUseCase eventCmd, string organizationIds) =>
 {
 
     var events = await eventCmd.Execute(0, organizationIds);
     return events;
 });
 
-app.MapGet("/mix/subTrips/", async (ISubTripUseCase subTripCmd, string sinceDate,  int quantity, string organizationIds) =>
+app.MapGet("/mix/subTrips/", async (ISubTripUseCase subTripCmd, string sinceDate, int quantity, string organizationIds) =>
 {
 
     var subTrips = await subTripCmd.Execute(sinceDate, 0, quantity, organizationIds);
@@ -98,22 +89,22 @@ app.MapGet("/mix/subTrips/", async (ISubTripUseCase subTripCmd, string sinceDate
 });
 
 
-app.MapGet("/mix/vehicles/", async (IVehicleUseCase vehicleCmd,   string organizationIds) =>
+app.MapGet("/mix/vehicles/", async (IVehicleUseCase vehicleCmd, string organizationIds) =>
 {
 
-    var vehicles = await vehicleCmd.Execute( 0,  organizationIds);
+    var vehicles = await vehicleCmd.Execute(0, organizationIds);
     return vehicles;
 });
 
 
-app.MapGet("/mix/trips/", async (ITripUseCase tripCmd, string sinceDate,  int quantity, string organizationIds) =>
+app.MapGet("/mix/trips/", async (ITripUseCase tripCmd, string sinceDate, int quantity, string organizationIds) =>
 {
 
     var trips = await tripCmd.Execute(sinceDate, 0, quantity, organizationIds);
     return trips;
 });
 
-app.MapGet("/mix/locations/", async (ILocalizationUseCase localizationCmd, string sinceDate,  int quantity, string organizationIds) =>
+app.MapGet("/mix/locations/", async (ILocalizationUseCase localizationCmd, string sinceDate, int quantity, string organizationIds) =>
 {
 
     var locations = await localizationCmd.Execute(sinceDate, 0, quantity, organizationIds);

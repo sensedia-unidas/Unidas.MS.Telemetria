@@ -1,9 +1,4 @@
 ﻿using MiX.Integrate.API.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Unidas.MS.Telemetria.Application.Interfaces.Services.MiX
 {
@@ -20,4 +15,4 @@ namespace Unidas.MS.Telemetria.Application.Interfaces.Services.MiX
         AssetsClient Assets { get; }
 
     }
-} 
+}

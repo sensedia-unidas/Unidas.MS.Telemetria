@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unidas.MS.Telemetria.Application.Interfaces.Services.Driver.Source;
-using Unidas.MS.Telemetria.Application.Interfaces.Services.Event.Source;
+﻿using Unidas.MS.Telemetria.Application.Interfaces.Services.Event.Source;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
-using Unidas.MS.Telemetria.Application.ViewModels.Driver;
 using Unidas.MS.Telemetria.Application.ViewModels.Event;
 
 namespace Unidas.MS.Telemetria.Application.Services.Event.Source

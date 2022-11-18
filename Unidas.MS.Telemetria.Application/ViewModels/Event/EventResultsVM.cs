@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Unidas.MS.Telemetria.Application.ViewModels.Event
+﻿namespace Unidas.MS.Telemetria.Application.ViewModels.Event
 {
-  
+
 
 
     public sealed class EventVM

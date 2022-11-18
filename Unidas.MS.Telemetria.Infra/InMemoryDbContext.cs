@@ -1,5 +1,5 @@
-﻿using Unidas.MS.Telemetria.Domain.Models.Cars;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Unidas.MS.Telemetria.Domain.Models.Cars;
 
 namespace Unidas.MS.Telemetria.Infra
 {

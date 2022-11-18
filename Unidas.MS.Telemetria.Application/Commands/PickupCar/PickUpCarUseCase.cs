@@ -1,11 +1,10 @@
 ﻿using Unidas.MS.Telemetria.Application.Interfaces.Commands.PickUpCar;
-using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
 using Unidas.MS.Telemetria.Domain.Models.Cars;
-using Unidas.MS.Telemetria.Application.Interfaces.Commands.PickUpCar;
 
 namespace Unidas.MS.Telemetria.Application.Commands.PickupCar
-{    public sealed class PickUpCarUseCase : IPickUpCarUseCase
+{
+    public sealed class PickUpCarUseCase : IPickUpCarUseCase
     {
 
         private readonly ICarReadOnlyRepository carReadOnlyRepository;
@@ -23,7 +22,7 @@ namespace Unidas.MS.Telemetria.Application.Commands.PickupCar
             //if (car == null)
             //    throw new CarNotFoundException($"O carro {carId} não existe");
 
-           
+
 
             var pickUp = car.Pickup(rentedBy, latitude, longitude);
 

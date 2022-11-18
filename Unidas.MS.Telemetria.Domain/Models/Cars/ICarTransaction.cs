@@ -2,9 +2,9 @@
 {
     public interface ICarTransaction
     {
-        DateTime TransactionDate { get;  }
-        string RentedBy { get;  }
-        string Action { get;  }
+        DateTime TransactionDate { get; }
+        string RentedBy { get; }
+        string Action { get; }
         long Latitude { get; }
         long Longitude { get; }
     }

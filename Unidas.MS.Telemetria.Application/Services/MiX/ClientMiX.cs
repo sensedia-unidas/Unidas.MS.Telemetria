@@ -1,10 +1,4 @@
 ﻿using MiX.Integrate.API.Client;
-using MiX.Integrate.Shared.Entities.LibraryEvents;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 
 namespace Unidas.MS.Telemetria.Application.Services.MiX

@@ -2,7 +2,7 @@
 using Unidas.MS.Telemetria.Application.ViewModels;
 
 namespace Unidas.MS.Telemetria.Application.Validation
-{    
+{
     public class MinimalValidator : IMinimalValidator
     {
         public ValidationResult Validate<T>(T model)
@@ -45,5 +45,5 @@ namespace Unidas.MS.Telemetria.Application.Validation
 
             return result;
         }
-    }    
+    }
 }

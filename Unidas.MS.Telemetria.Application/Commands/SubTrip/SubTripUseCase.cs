@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unidas.MS.Telemetria.Application.Exceptions;
-using Unidas.MS.Telemetria.Application.Interfaces.Commands.HistoricalEvent;
-using Unidas.MS.Telemetria.Application.Interfaces.Services.HistoricalEvent.Source;
-using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
-using Unidas.MS.Telemetria.Application.Services.HistoricalEvent.Source;
-using Unidas.MS.Telemetria.Application.Services;
-using Unidas.MS.Telemetria.Application.ViewModels.HistoricalEvent;
-using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
+﻿using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
-using Unidas.MS.Telemetria.Application.ViewModels.SubTrip;
+using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.SubTrip.Source;
+using Unidas.MS.Telemetria.Application.Services;
 using Unidas.MS.Telemetria.Application.Services.SubTrip.Source;
+using Unidas.MS.Telemetria.Application.ViewModels.SubTrip;
 
 namespace Unidas.MS.Telemetria.Application.Commands.SubTrip
 {

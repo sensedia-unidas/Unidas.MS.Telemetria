@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
-using Unidas.MS.Telemetria.Domain.Models.EventFilter;
+﻿using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
 
 namespace Unidas.MS.Telemetria.Infra.Repositories
 {
@@ -24,7 +17,7 @@ namespace Unidas.MS.Telemetria.Infra.Repositories
 
 
 
-            var query =  _context.Events
+            var query = _context.Events
               .Where(x => x.Active)
               .Select(x => x.Value);
 

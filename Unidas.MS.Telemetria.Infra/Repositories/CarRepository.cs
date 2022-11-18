@@ -43,7 +43,7 @@ namespace Unidas.MS.Telemetria.Infra.Repositories
 
             List<PickUpCar> pickups = _context.Pickups.Where(x => x.CarId == id).ToList();
 
-            foreach(PickUpCar transactionData in carTransactions)
+            foreach (PickUpCar transactionData in carTransactions)
             {
                 PickUpCar pickup = PickUpCar.Load(transactionData.Id, transactionData.CarId, transactionData.RentedBy, transactionData.Latitude, transactionData.Longitude, transactionData.TransactionDate);
 
@@ -63,7 +63,7 @@ namespace Unidas.MS.Telemetria.Infra.Repositories
 
         public async Task Update(Cars car, PickUpCar pickUp)
         {
-            PickUpCar pickupEntity = PickUpCar.Load(pickUp.Id, car.Id, pickUp.RentedBy, pickUp.Latitude, pickUp.Longitude,  pickUp.TransactionDate);
+            PickUpCar pickupEntity = PickUpCar.Load(pickUp.Id, car.Id, pickUp.RentedBy, pickUp.Latitude, pickUp.Longitude, pickUp.TransactionDate);
 
             _context.Pickups.Add(pickupEntity);
 

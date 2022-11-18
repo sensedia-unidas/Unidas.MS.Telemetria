@@ -1,16 +1,7 @@
-﻿using MiX.Integrate.Shared.Entities.Trips;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unidas.MS.Telemetria.Application.Exceptions;
-using Unidas.MS.Telemetria.Application.Interfaces.Services.HistoricalEvent.Source;
+﻿using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.SubTrip.Source;
-using Unidas.MS.Telemetria.Application.ViewModels.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.ViewModels.SubTrip;
-using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
 
 namespace Unidas.MS.Telemetria.Application.Services.SubTrip.Source
 {
@@ -40,7 +31,7 @@ namespace Unidas.MS.Telemetria.Application.Services.SubTrip.Source
 
             foreach (var trip in resultFromMiX.Items)
                 subTrips.AddRange(trip.SubTrips);
-            
+
 
             var vm = new SubTripResultsVM();
             vm.Result = subTrips;

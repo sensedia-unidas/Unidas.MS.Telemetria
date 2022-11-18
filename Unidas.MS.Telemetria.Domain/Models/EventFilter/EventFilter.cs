@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unidas.MS.Telemetria.Domain.Models.Cars;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Unidas.MS.Telemetria.Domain.Models.EventFilter
 {
-    public sealed class EventFilter 
+    public sealed class EventFilter
     {
 
 

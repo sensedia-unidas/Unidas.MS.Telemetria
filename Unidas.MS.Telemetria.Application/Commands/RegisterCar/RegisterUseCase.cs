@@ -5,7 +5,7 @@ using Unidas.MS.Telemetria.Domain.Models.Cars;
 
 namespace Unidas.MS.Telemetria.Application.Commands.RegisterCar
 {
-    public sealed  class RegisterUseCase : IRegisterCarUseCase
+    public sealed class RegisterUseCase : IRegisterCarUseCase
     {
 
 

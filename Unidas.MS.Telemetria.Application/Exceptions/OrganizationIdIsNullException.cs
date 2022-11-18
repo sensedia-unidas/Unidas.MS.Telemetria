@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unidas.MS.Telemetria.Application.Services;
+﻿using Unidas.MS.Telemetria.Application.Services;
 
 namespace Unidas.MS.Telemetria.Application.Exceptions
 {

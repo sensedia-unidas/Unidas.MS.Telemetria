@@ -1,19 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Localization;
-using Unidas.MS.Telemetria.Application.Interfaces.Services.HistoricalEvent.Source;
-using Unidas.MS.Telemetria.Application.Services.HistoricalEvent.Source;
-using Unidas.MS.Telemetria.Application.Services;
-using Unidas.MS.Telemetria.Application.ViewModels.Localization;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Localization.Source;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
-using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
+using Unidas.MS.Telemetria.Application.Services;
 using Unidas.MS.Telemetria.Application.Services.Localization.Source;
+using Unidas.MS.Telemetria.Application.ViewModels.Localization;
 
 namespace Unidas.MS.Telemetria.Application.Commands.Localization
 {

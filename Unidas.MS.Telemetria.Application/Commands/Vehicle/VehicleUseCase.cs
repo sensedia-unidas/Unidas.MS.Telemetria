@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unidas.MS.Telemetria.Application.Exceptions;
-using Unidas.MS.Telemetria.Application.Interfaces.Commands.Event;
-using Unidas.MS.Telemetria.Application.Interfaces.Services.Event.Source;
-using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
-using Unidas.MS.Telemetria.Application.Services.Event.Source;
-using Unidas.MS.Telemetria.Application.Services;
-using Unidas.MS.Telemetria.Application.ViewModels.Event;
+﻿using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
-using Unidas.MS.Telemetria.Application.ViewModels.Vehicle;
+using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Vehicle.Source;
+using Unidas.MS.Telemetria.Application.Services;
 using Unidas.MS.Telemetria.Application.Services.Vehicle.Source;
+using Unidas.MS.Telemetria.Application.ViewModels.Vehicle;
 
 namespace Unidas.MS.Telemetria.Application.Commands.Vehicle
 {

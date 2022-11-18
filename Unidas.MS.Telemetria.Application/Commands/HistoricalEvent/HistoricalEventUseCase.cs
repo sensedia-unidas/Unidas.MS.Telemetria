@@ -8,19 +8,18 @@ using Unidas.MS.Telemetria.Application.Services;
 using Unidas.MS.Telemetria.Application.Services.HistoricalEvent.Source;
 using Unidas.MS.Telemetria.Application.ViewModels.HistoricalEvent;
 using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
-using Unidas.MS.Telemetria.Domain.Models.Cars;
 
 namespace Unidas.MS.Telemetria.Application.Commands.HistoricalEvent
 {
     public class HistoricalEventUseCase : IHistoricalEventUseCase
     {
         private IClientMiX _client;
-        
+
         IEventFilterReadOnlyRepository _eventFilterReadRepository;
         IServiceScopeFactory _serviceScopeFactory;
         public HistoricalEventUseCase(IClientMiX client, IServiceScopeFactory serviceScopeFactory)
         {
-            
+
             _client = client;
             _serviceScopeFactory = serviceScopeFactory;
         }
@@ -53,7 +52,7 @@ namespace Unidas.MS.Telemetria.Application.Commands.HistoricalEvent
                         if (eventResult != null)
                             historicalEventsOrganization.Add(eventResult);
                     }));
-                    
+
                 });
 
                 Task.WaitAll(taskList.ToArray());

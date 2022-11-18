@@ -1,7 +1,5 @@
 ﻿using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Domain.Models;
-using Newtonsoft.Json;
-using System.Net;
 
 namespace Unidas.MS.Telemetria.API.Helpers
 {
@@ -51,7 +49,7 @@ namespace Unidas.MS.Telemetria.API.Helpers
             //{
             //    code = HttpStatusCode.NotFound;
             //}
-            else 
+            else
             {
                 code = HttpStatusCode.NotFound;
             }
