@@ -12,6 +12,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.Localization;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
+using Unidas.MS.Telemetria.Application.ViewModels.Driver;
 using Unidas.MS.Telemetria.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -68,6 +69,13 @@ app.MapGet("/mix/historicalEvents/", async (IHistoricalEventUseCase historicalEv
 });
 
 app.MapGet("/mix/drivers/", async (IDriverUseCase driverCmd, string organizationIds) =>
+{
+
+    var drivers = await driverCmd.Execute(0, organizationIds);
+    return drivers;
+});
+
+app.MapGet("/drivers/", async (IDriverUseCase driverCmd, string organizationIds) =>
 {
 
     var drivers = await driverCmd.Execute(0, organizationIds);
