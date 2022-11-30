@@ -3,7 +3,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.Event;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Event.Source;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Services;
-using Unidas.MS.Telemetria.Application.Services.Event.Source;
+using Unidas.MS.Telemetria.Application.Services.Event.MiX;
 using Unidas.MS.Telemetria.Application.ViewModels.Event;
 
 namespace Unidas.MS.Telemetria.Application.Commands.Event

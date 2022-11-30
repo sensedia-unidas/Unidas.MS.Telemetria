@@ -9,6 +9,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.Driver;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Event;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Localization;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Position;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
@@ -75,13 +76,6 @@ app.MapGet("/mix/drivers/", async (IDriverUseCase driverCmd, string organization
     return drivers;
 });
 
-app.MapGet("/drivers/", async (IDriverUseCase driverCmd, string organizationIds) =>
-{
-
-    var drivers = await driverCmd.Execute(0, organizationIds);
-    return drivers;
-});
-
 app.MapGet("/mix/events/", async (IEventUseCase eventCmd, string organizationIds) =>
 {
 
@@ -120,6 +114,28 @@ app.MapGet("/mix/locations/", async (ILocalizationUseCase localizationCmd, strin
     return locations;
 });
 
+app.MapPost("/golsat/positions/save", async (IPositionSaveUseCase positionSaveCmd , object obj) =>
+{
+
+    await positionSaveCmd.Execute(1, obj);
+
+    return Results.Ok();
+});
+
+app.MapGet("/golsat/positions/", async (IPositionReadUseCase positionCmd) =>
+{
+
+    return await positionCmd.Execute(1);
+
+});
+
+app.MapDelete("/golsat/positions/remove", async (IPositionDeleteUseCase positionCmd, Guid guid) =>
+{
+
+    await positionCmd.Execute(1, guid);
+
+    return Results.Ok();
+});
 
 
 

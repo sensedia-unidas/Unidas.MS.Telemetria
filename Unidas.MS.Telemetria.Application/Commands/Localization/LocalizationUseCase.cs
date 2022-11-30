@@ -4,7 +4,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.Localization;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Localization.Source;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Services;
-using Unidas.MS.Telemetria.Application.Services.Localization.Source;
+using Unidas.MS.Telemetria.Application.Services.Localization.MiX;
 using Unidas.MS.Telemetria.Application.ViewModels.Localization;
 
 namespace Unidas.MS.Telemetria.Application.Commands.Localization

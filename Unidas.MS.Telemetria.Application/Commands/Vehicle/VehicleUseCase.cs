@@ -3,7 +3,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Vehicle.Source;
 using Unidas.MS.Telemetria.Application.Services;
-using Unidas.MS.Telemetria.Application.Services.Vehicle.Source;
+using Unidas.MS.Telemetria.Application.Services.Vehicle.MiX;
 using Unidas.MS.Telemetria.Application.ViewModels.Vehicle;
 
 namespace Unidas.MS.Telemetria.Application.Commands.Vehicle

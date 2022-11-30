@@ -3,7 +3,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.SubTrip.Source;
 using Unidas.MS.Telemetria.Application.Services;
-using Unidas.MS.Telemetria.Application.Services.SubTrip.Source;
+using Unidas.MS.Telemetria.Application.Services.SubTrip.MiX;
 using Unidas.MS.Telemetria.Application.ViewModels.SubTrip;
 
 namespace Unidas.MS.Telemetria.Application.Commands.SubTrip

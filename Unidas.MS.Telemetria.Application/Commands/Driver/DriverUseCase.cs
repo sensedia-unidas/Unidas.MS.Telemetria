@@ -3,7 +3,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.Driver;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Driver.Source;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Services;
-using Unidas.MS.Telemetria.Application.Services.Driver.Source;
+using Unidas.MS.Telemetria.Application.Services.Driver.MiX;
 using Unidas.MS.Telemetria.Application.ViewModels.Driver;
 
 namespace Unidas.MS.Telemetria.Application.Commands.Driver

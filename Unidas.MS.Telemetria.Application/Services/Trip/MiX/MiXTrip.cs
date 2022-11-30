@@ -3,7 +3,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Trip.Source;
 using Unidas.MS.Telemetria.Application.ViewModels.Trip;
 
-namespace Unidas.MS.Telemetria.Application.Services.Trip.Source
+namespace Unidas.MS.Telemetria.Application.Services.Trip.MiX
 {
     public class MiXTrip : ITripSource
     {

@@ -5,7 +5,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.ViewModels.HistoricalEvent;
 using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
 
-namespace Unidas.MS.Telemetria.Application.Services.HistoricalEvent.Source
+namespace Unidas.MS.Telemetria.Application.Services.HistoricalEvent.MiX
 {
     public class MiXHistoricalEvent : IHistoricalEventSource
     {

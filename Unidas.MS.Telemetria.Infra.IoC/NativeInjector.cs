@@ -5,6 +5,7 @@ using Unidas.MS.Telemetria.Application.Commands.Event;
 using Unidas.MS.Telemetria.Application.Commands.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.Commands.Localization;
 using Unidas.MS.Telemetria.Application.Commands.PickupCar;
+using Unidas.MS.Telemetria.Application.Commands.Position;
 using Unidas.MS.Telemetria.Application.Commands.RegisterCar;
 using Unidas.MS.Telemetria.Application.Commands.SubTrip;
 using Unidas.MS.Telemetria.Application.Commands.Trip;
@@ -15,13 +16,16 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.Event;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Localization;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.PickUpCar;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Position;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.RegisterCar;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
-using Unidas.MS.Telemetria.Application.Services.Localization.Source;
+using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBus;
+using Unidas.MS.Telemetria.Application.Services.Localization.MiX;
 using Unidas.MS.Telemetria.Application.Services.MiX;
+using Unidas.MS.Telemetria.Application.Services.ServiceBus;
 using Unidas.MS.Telemetria.Application.Validation;
 using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
 using Unidas.MS.Telemetria.Infra.Repositories;
@@ -47,9 +51,11 @@ namespace Unidas.MS.Telemetria.Infra.IoC
             services.AddScoped<IVehicleUseCase, VehicleUseCase>();
             services.AddScoped<ITripUseCase, TripUseCase>();
             services.AddScoped<ILocalizationUseCase, LocalizationUseCase>();
+            services.AddScoped<IPositionSaveUseCase, PositionSaveUseCase>();
+            services.AddScoped<IPositionReadUseCase, PositionReadUseCase>();
+            services.AddScoped<IPositionDeleteUseCase, PositionDeleteUseCase>();
 
-
-
+            services.AddSingleton<IServiceBusService, ServiceBusService>();
             services.AddSingleton<IClientMiX, ClientMiX>();
             services.AddSingleton<InMemoryDbContext>();
             services.AddSingleton<MiXLocalization>();

@@ -2,6 +2,7 @@
 {
     public enum SourceEnum
     {
-        MiX
+        MiX,
+        Golsat
     }
 }

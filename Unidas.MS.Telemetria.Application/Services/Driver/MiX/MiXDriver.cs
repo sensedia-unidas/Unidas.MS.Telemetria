@@ -2,7 +2,7 @@
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.ViewModels.Driver;
 
-namespace Unidas.MS.Telemetria.Application.Services.Driver.Source
+namespace Unidas.MS.Telemetria.Application.Services.Driver.MiX
 {
     public class MiXDriver : IDriverSource
     {

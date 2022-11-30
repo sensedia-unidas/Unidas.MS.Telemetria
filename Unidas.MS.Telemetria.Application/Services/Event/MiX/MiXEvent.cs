@@ -2,7 +2,7 @@
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.ViewModels.Event;
 
-namespace Unidas.MS.Telemetria.Application.Services.Event.Source
+namespace Unidas.MS.Telemetria.Application.Services.Event.MiX
 {
     public class MiXEvent : IEventSource
     {
