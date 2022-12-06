@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBusService;
 
-namespace Unidas.MS.Telemetria.Application.Services.ServiceBus
+namespace Unidas.MS.Telemetria.Application.Services.Queue
 {
     public  class GolsatServiceBusService : ServiceBusService , IGolsatServiceBusService
     {

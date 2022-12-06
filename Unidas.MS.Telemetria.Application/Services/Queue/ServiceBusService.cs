@@ -11,7 +11,7 @@ using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBus;
 using Unidas.MS.Telemetria.Application.ViewModels.ServiceBus;
 
-namespace Unidas.MS.Telemetria.Application.Services.ServiceBus
+namespace Unidas.MS.Telemetria.Application.Services.Queue
 {
     public class ServiceBusService : IServiceBusService
     {

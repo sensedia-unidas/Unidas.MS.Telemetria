@@ -8,6 +8,6 @@ namespace Unidas.MS.Telemetria.Application.Interfaces.Commands.Queue
 {
     public interface IBaseQueueDeleteUseCase
     {
-        Task Execute(int idSource, Guid guid);
+        Task Execute( Guid guid);
     }
 }

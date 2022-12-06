@@ -9,6 +9,6 @@ namespace Unidas.MS.Telemetria.Application.Interfaces.Commands.Queue
 {
     public interface IBaseQueueSaveUseCase
     {
-        Task Execute<T>(int idSource, T events);
+        Task Execute<T>( T events);
     }
 }

@@ -143,7 +143,7 @@ app.MapDelete("/golsat/remove", async (IPositionDeleteUseCase positionCmd, Guid 
 app.MapPost("/ituran/save", async (IIturanQueueSaveUseCase saveCmd, EventDefaultVM events) =>
 {
 
-    await saveCmd.Execute(1, events);
+    await saveCmd.Execute( events);
 
     return Results.Ok();
 });
@@ -151,14 +151,14 @@ app.MapPost("/ituran/save", async (IIturanQueueSaveUseCase saveCmd, EventDefault
 app.MapGet("/ituran/events", async (IIturanQueueReadUseCase readCmd) =>
 {
 
-    return await readCmd.Execute<EventDefaultVM>(1);
+    return await readCmd.Execute<EventDefaultVM>();
 
 });
 
 app.MapDelete("/ituran/remove", async (IIturanQueueDeleteUseCase deleteCmd, Guid guid) =>
 {
 
-    await deleteCmd.Execute(1, guid);
+    await deleteCmd.Execute(guid);
 
     return Results.Ok();
 });

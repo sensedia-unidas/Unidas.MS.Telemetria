@@ -23,7 +23,7 @@ namespace Unidas.MS.Telemetria.Application.Commands.Queue
         {
             _serviceBusService = serviceBusService;
         }
-        public async Task<ServiceBusVM<T>> Execute<T>(int sourceId)
+        public async Task<ServiceBusVM<T>> Execute<T>()
         {
 
             return await _serviceBusService.ReadAsync<T>();

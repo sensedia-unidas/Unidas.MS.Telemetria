@@ -10,6 +10,6 @@ namespace Unidas.MS.Telemetria.Application.Interfaces.Commands.Queue
 {
     public interface IBaseQueueReadUseCase
     {
-        Task<ServiceBusVM<T>> Execute<T>(int idSource);
+        Task<ServiceBusVM<T>> Execute<T>();
     }
 }

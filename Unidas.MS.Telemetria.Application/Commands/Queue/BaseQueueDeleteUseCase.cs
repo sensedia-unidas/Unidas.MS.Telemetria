@@ -21,7 +21,7 @@ namespace Unidas.MS.Telemetria.Application.Commands.Queue
         {
             _serviceBusService = serviceBusService;
         }
-        public async Task Execute(int sourceId, Guid guid)
+        public async Task Execute( Guid guid)
         {
 
             await _serviceBusService.DeleteAsync(guid);

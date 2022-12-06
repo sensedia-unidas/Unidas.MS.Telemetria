@@ -3,6 +3,7 @@
     public enum SourceEnum
     {
         MiX,
-        Golsat
+        Golsat,
+        Ituran
     }
 }
