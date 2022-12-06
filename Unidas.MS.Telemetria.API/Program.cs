@@ -10,10 +10,13 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.Event;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Localization;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Position;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Queue.Ituran;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
 using Unidas.MS.Telemetria.Application.ViewModels.Driver;
+using Unidas.MS.Telemetria.Application.ViewModels.Event;
+using Unidas.MS.Telemetria.Application.ViewModels.Position;
 using Unidas.MS.Telemetria.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -114,25 +117,48 @@ app.MapGet("/mix/locations/", async (ILocalizationUseCase localizationCmd, strin
     return locations;
 });
 
-app.MapPost("/golsat/positions/save", async (IPositionSaveUseCase positionSaveCmd , object obj) =>
+app.MapPost("/golsat/save", async (IPositionSaveUseCase positionSaveCmd , GolSatPositionsVM positions) =>
 {
 
-    await positionSaveCmd.Execute(1, obj);
+    await positionSaveCmd.Execute(1, positions);
 
     return Results.Ok();
 });
 
-app.MapGet("/golsat/positions/", async (IPositionReadUseCase positionCmd) =>
+app.MapGet("/golsat/events", async (IPositionReadUseCase positionCmd) =>
 {
 
     return await positionCmd.Execute(1);
 
 });
 
-app.MapDelete("/golsat/positions/remove", async (IPositionDeleteUseCase positionCmd, Guid guid) =>
+app.MapDelete("/golsat/remove", async (IPositionDeleteUseCase positionCmd, Guid guid) =>
 {
 
     await positionCmd.Execute(1, guid);
+
+    return Results.Ok();
+});
+
+app.MapPost("/ituran/save", async (IIturanQueueSaveUseCase saveCmd, EventDefaultVM events) =>
+{
+
+    await saveCmd.Execute(1, events);
+
+    return Results.Ok();
+});
+
+app.MapGet("/ituran/events", async (IIturanQueueReadUseCase readCmd) =>
+{
+
+    return await readCmd.Execute<EventDefaultVM>(1);
+
+});
+
+app.MapDelete("/ituran/remove", async (IIturanQueueDeleteUseCase deleteCmd, Guid guid) =>
+{
+
+    await deleteCmd.Execute(1, guid);
 
     return Results.Ok();
 });

@@ -22,7 +22,7 @@ namespace Unidas.MS.Telemetria.Application.Services
             }
         }
 
-        public static T Derialize<T>(string json)
+        public static T Deserialize<T>(string json)
         {
             try
             {

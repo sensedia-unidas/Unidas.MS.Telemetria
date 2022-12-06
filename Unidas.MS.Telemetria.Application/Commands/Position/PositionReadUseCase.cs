@@ -10,19 +10,21 @@ using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBus;
 using Unidas.MS.Telemetria.Application.Services.Position.Golsat;
 using Unidas.MS.Telemetria.Application.Services;
 using Unidas.MS.Telemetria.Application.ViewModels.ServiceBus;
+using Unidas.MS.Telemetria.Application.ViewModels.Position;
+using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBusService;
 
 namespace Unidas.MS.Telemetria.Application.Commands.Position
 {
     public class PositionReadUseCase : IPositionReadUseCase
     {
 
-        private IServiceBusService _serviceBusService;
+        private IGolsatServiceBusService _golsatServiceBusService;
 
-        public PositionReadUseCase(IServiceBusService serviceBusService)
+        public PositionReadUseCase(IGolsatServiceBusService golsatServiceBusService)
         {
-            _serviceBusService = serviceBusService;
+            _golsatServiceBusService = golsatServiceBusService;
         }
-        public async Task<ServiceBusVM<object>> Execute(int sourceId)
+        public async Task<ServiceBusVM<GolSatItem>> Execute(int sourceId)
         {
             IPositionSource source = this.Source(sourceId);
 
@@ -34,7 +36,7 @@ namespace Unidas.MS.Telemetria.Application.Commands.Position
         {
             if (id == (int)SourceEnum.Golsat)
             {
-                return new GolsatPosition(_serviceBusService);
+                return new GolsatPosition(_golsatServiceBusService);
 
             }
             throw new SourceIdNotFoundException();

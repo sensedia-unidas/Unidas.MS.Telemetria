@@ -9,8 +9,9 @@ namespace Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBus
 {
     public interface IServiceBusService
     {
-        Task SendAsync(IList<object> jsons);
-        Task SendAsync(object json);
+
+        Task SendAsync<T>(IList<T> jsons);
+        Task SendAsync<T>(T json);
         Task<ServiceBusVM<T>> ReadAsync<T>();
         Task DeleteAsync(Guid guid);
 

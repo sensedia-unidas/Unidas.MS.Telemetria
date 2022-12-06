@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unidas.MS.Telemetria.Application.Exceptions;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBus;
 using Unidas.MS.Telemetria.Application.ViewModels.ServiceBus;
 
@@ -22,7 +23,7 @@ namespace Unidas.MS.Telemetria.Application.Services.ServiceBus
         Dictionary<Guid, List<ServiceBusReceivedMessage>> _messages = new Dictionary<Guid, List<ServiceBusReceivedMessage>>();
 
 
-        public ServiceBusService()
+        public ServiceBusService(string connectionString, string queueName)
         {
             var clientOptions = new ServiceBusClientOptions
             {
@@ -36,7 +37,15 @@ namespace Unidas.MS.Telemetria.Application.Services.ServiceBus
 
         }
 
-        public async Task SendAsync(IList<object> jsons)
+        public async Task SendAsync<T>(T json)
+        {
+            List<T> objects = new List<T>();
+            objects.Add(json);
+
+            await this.SendAsync(objects);
+        }
+
+        public async Task SendAsync<T>(IList<T> jsons)
         {
 
             // create a batch 
@@ -75,6 +84,8 @@ namespace Unidas.MS.Telemetria.Application.Services.ServiceBus
                 List<T> list = new List<T>();
                 List<ServiceBusReceivedMessage> serviceBusMessages = new List<ServiceBusReceivedMessage>();
 
+                var mes = await _receiver.PeekMessageAsync(1);
+
                 var messages = await _receiver.ReceiveMessagesAsync(1000, TimeSpan.FromSeconds(30)); // You have read one message
 
 
@@ -84,12 +95,19 @@ namespace Unidas.MS.Telemetria.Application.Services.ServiceBus
 
                 foreach (var message in messages)
                 {
+                    try
+                    {
+                        var json = message.Body.ToString();
+                        T obj = Util.Deserialize<T>(json);
 
-                    T obj = Util.Derialize<T>(message.Body.ToString());
+                        serviceBusMessages.Add(message);
 
-                    serviceBusMessages.Add(message);
-
-                    list.Add(obj);
+                        list.Add(obj);
+                    }
+                    catch(JsonNotValidException ex)
+                    {
+                        //logar o erro
+                    }
                 }
 
 
@@ -128,12 +146,6 @@ namespace Unidas.MS.Telemetria.Application.Services.ServiceBus
             _messages.Remove(guid);
         }
 
-        public async Task SendAsync(object json)
-        {
-            List<object> objects = new List<object>();
-            objects.Add(json);
-
-            await this.SendAsync(objects);
-        }
+       
     }
 }

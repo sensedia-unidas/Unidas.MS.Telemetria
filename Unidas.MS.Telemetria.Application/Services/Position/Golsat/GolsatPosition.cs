@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.Position.Source;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBus;
+using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBusService;
+using Unidas.MS.Telemetria.Application.ViewModels.Position;
 using Unidas.MS.Telemetria.Application.ViewModels.ServiceBus;
 
 namespace Unidas.MS.Telemetria.Application.Services.Position.Golsat
@@ -12,21 +14,21 @@ namespace Unidas.MS.Telemetria.Application.Services.Position.Golsat
     public class GolsatPosition : IPositionSource
     {
 
-        private IServiceBusService _serviceBusService;
-        public GolsatPosition(IServiceBusService serviceBusService)
+        private IGolsatServiceBusService _serviceBusService;
+        public GolsatPosition(IGolsatServiceBusService serviceBusService)
         {
             _serviceBusService = serviceBusService;
         }
 
-        
-        public async Task SaveAsync(object json)
+
+        public async Task SaveAsync(GolSatPositionsVM positions)
         {
-            await _serviceBusService.SendAsync(json);
+            await _serviceBusService.SendAsync<GolSatItem>(positions.positions);
         }
 
-        public async Task<ServiceBusVM<object>> ReadAsync()
+        public async Task<ServiceBusVM<GolSatItem>> ReadAsync()
         {
-            ServiceBusVM<object> messageVM = await _serviceBusService.ReadAsync<object>();
+            ServiceBusVM<GolSatItem> messageVM = await _serviceBusService.ReadAsync<GolSatItem>();
 
             return messageVM;
         }

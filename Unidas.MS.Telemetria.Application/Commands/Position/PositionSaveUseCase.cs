@@ -14,23 +14,26 @@ using Unidas.MS.Telemetria.Application.Interfaces.Services.Position.Source;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBus;
 using Unidas.MS.Telemetria.Application.Services.Position.Golsat;
 using Microsoft.Azure.Amqp.Framing;
+using Unidas.MS.Telemetria.Application.ViewModels.Position;
+using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBusService;
 
 namespace Unidas.MS.Telemetria.Application.Commands.Position
 {
     public class PositionSaveUseCase : IPositionSaveUseCase
     {
 
-        private IServiceBusService _serviceBusService;
 
-        public PositionSaveUseCase(IServiceBusService serviceBusService)
+        private IGolsatServiceBusService _golsatServiceBusService;
+
+        public PositionSaveUseCase(IGolsatServiceBusService golsatServiceBusService)
         {
-            _serviceBusService = serviceBusService;
+            _golsatServiceBusService = golsatServiceBusService;
         }
-        public async Task Execute(int sourceId, object json)
+        public async Task Execute(int sourceId, GolSatPositionsVM positions)
         {
             IPositionSource source = this.Source(sourceId);
 
-            await source.SaveAsync(json);
+            await source.SaveAsync(positions);
 
         }
 
@@ -38,7 +41,7 @@ namespace Unidas.MS.Telemetria.Application.Commands.Position
         {
             if (id == (int)SourceEnum.Golsat)
             {
-                return new GolsatPosition(_serviceBusService);
+                return new GolsatPosition(_golsatServiceBusService);
 
             }
             throw new SourceIdNotFoundException();

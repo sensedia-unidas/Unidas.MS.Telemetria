@@ -6,6 +6,7 @@ using Unidas.MS.Telemetria.Application.Commands.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.Commands.Localization;
 using Unidas.MS.Telemetria.Application.Commands.PickupCar;
 using Unidas.MS.Telemetria.Application.Commands.Position;
+using Unidas.MS.Telemetria.Application.Commands.Queue.Ituran;
 using Unidas.MS.Telemetria.Application.Commands.RegisterCar;
 using Unidas.MS.Telemetria.Application.Commands.SubTrip;
 using Unidas.MS.Telemetria.Application.Commands.Trip;
@@ -17,12 +18,14 @@ using Unidas.MS.Telemetria.Application.Interfaces.Commands.HistoricalEvent;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Localization;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.PickUpCar;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Position;
+using Unidas.MS.Telemetria.Application.Interfaces.Commands.Queue.Ituran;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.RegisterCar;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.SubTrip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Trip;
 using Unidas.MS.Telemetria.Application.Interfaces.Commands.Vehicle;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.MiX;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBus;
+using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBusService;
 using Unidas.MS.Telemetria.Application.Services.Localization.MiX;
 using Unidas.MS.Telemetria.Application.Services.MiX;
 using Unidas.MS.Telemetria.Application.Services.ServiceBus;
@@ -54,8 +57,14 @@ namespace Unidas.MS.Telemetria.Infra.IoC
             services.AddScoped<IPositionSaveUseCase, PositionSaveUseCase>();
             services.AddScoped<IPositionReadUseCase, PositionReadUseCase>();
             services.AddScoped<IPositionDeleteUseCase, PositionDeleteUseCase>();
+            services.AddScoped<IIturanQueueSaveUseCase, IturanQueueSaveUseCase>();
+            services.AddScoped<IIturanQueueReadUseCase, IturanQueueReadUseCase>();
+            services.AddScoped<IIturanQueueDeleteUseCase, IturanQueueDeleteUseCase>();
 
-            services.AddSingleton<IServiceBusService, ServiceBusService>();
+            //services.AddSingleton<IServiceBusService, ServiceBusService>();
+
+            services.AddSingleton<IGolsatServiceBusService, GolsatServiceBusService>();
+            services.AddSingleton<IIturanServiceBusService, IturanServiceBusService>();
             services.AddSingleton<IClientMiX, ClientMiX>();
             services.AddSingleton<InMemoryDbContext>();
             services.AddSingleton<MiXLocalization>();
