@@ -23,7 +23,7 @@ namespace Unidas.MS.Telemetria.Application.Services.Position.Golsat
 
         public async Task SaveAsync(GolSatPositionsVM positions)
         {
-            await _serviceBusService.SendAsync<GolSatItem>(positions.positions);
+            await _serviceBusService.SendListAsync<GolSatItem>(positions.positions);
         }
 
         public async Task<ServiceBusVM<GolSatItem>> ReadAsync()

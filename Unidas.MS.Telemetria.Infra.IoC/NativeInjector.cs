@@ -28,7 +28,7 @@ using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBus;
 using Unidas.MS.Telemetria.Application.Interfaces.Services.ServiceBusService;
 using Unidas.MS.Telemetria.Application.Services.Localization.MiX;
 using Unidas.MS.Telemetria.Application.Services.MiX;
-using Unidas.MS.Telemetria.Application.Services.ServiceBus;
+using Unidas.MS.Telemetria.Application.Services.Queue;
 using Unidas.MS.Telemetria.Application.Validation;
 using Unidas.MS.Telemetria.Domain.Interfaces.Repositories;
 using Unidas.MS.Telemetria.Infra.Repositories;

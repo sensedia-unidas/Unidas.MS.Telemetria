@@ -8,8 +8,8 @@ using Unidas.MS.Telemetria.Application.ViewModels.ServiceBus;
 
 namespace Unidas.MS.Telemetria.Application.Interfaces.Commands.Position
 {
-    public interface IPositionDeleteUseCase : IBaseQueueDeleteUseCase
+    public interface IPositionDeleteUseCase 
     {
-        Task Execute(int idSource, Guid guid);
+        Task Execute(int sourceId, Guid guid);
     }
 }

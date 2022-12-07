@@ -31,9 +31,9 @@ namespace Unidas.MS.Telemetria.Application.Services.Queue
             };
             //TODO: Replace the "<NAMESPACE-NAME>" and "<QUEUE-NAME>" placeholders.
 
-            _client = new ServiceBusClient(Config.GetFromAppSettings("ServiceBus:Golsat:ConnectionString1"), clientOptions);
-            _sender = _client.CreateSender(Config.GetFromAppSettings("ServiceBus:Golsat:QueueName"));
-            _receiver = _client.CreateReceiver(Config.GetFromAppSettings("ServiceBus:Golsat:QueueName"), new ServiceBusReceiverOptions() { ReceiveMode = ServiceBusReceiveMode.PeekLock });
+            _client = new ServiceBusClient(connectionString, clientOptions);
+            _sender = _client.CreateSender(queueName);
+            _receiver = _client.CreateReceiver(queueName, new ServiceBusReceiverOptions() { ReceiveMode = ServiceBusReceiveMode.PeekLock });
 
         }
 
@@ -42,30 +42,45 @@ namespace Unidas.MS.Telemetria.Application.Services.Queue
             List<T> objects = new List<T>();
             objects.Add(json);
 
-            await this.SendAsync(objects);
+            await this.SendListAsync<T>(objects);
         }
 
-        public async Task SendAsync<T>(IList<T> jsons)
+        public async Task SendListAsync<T>(IList<T> jsons)
         {
 
+            List<ServiceBusMessageBatch> batchMessages = new List<ServiceBusMessageBatch>();
             // create a batch 
-            using ServiceBusMessageBatch messageBatch = await _sender.CreateMessageBatchAsync();
+            ServiceBusMessageBatch tempMessageBatch = await _sender.CreateMessageBatchAsync();
+
 
 
             for (int i = 0; i < jsons.Count(); i++)
             {
                 var jsonString = Util.Serialize(jsons[i]);
-                if (!messageBatch.TryAddMessage(new ServiceBusMessage(jsonString)))
+                if (!tempMessageBatch.TryAddMessage(new ServiceBusMessage(jsonString)))
                 {
                     throw new Exception($"The message {i} is too large to fit in the batch.");
                 }
+
+                if (i > 0 && i % 100 == 0 || i == jsons.Count - 1)
+                {
+                    batchMessages.Add(tempMessageBatch);
+                    tempMessageBatch = await _sender.CreateMessageBatchAsync();
+                }
+
+
             }
 
             try
             {
-                // Use the producer client to send the batch of messages to the Service Bus queue
-                await _sender.SendMessagesAsync(messageBatch);
-                //Console.WriteLine($"A batch of {numOfMessages} messages has been published to the queue.");
+                foreach (var batchMesage in batchMessages)
+                {
+                    // Use the producer client to send the batch of messages to the Service Bus queue
+                    _sender.SendMessagesAsync(batchMesage).Wait();
+                    
+                    
+                    //Console.WriteLine($"A batch of {numOfMessages} messages has been published to the queue.");
+                }
             }
             finally
             {
@@ -84,8 +99,7 @@ namespace Unidas.MS.Telemetria.Application.Services.Queue
                 List<T> list = new List<T>();
                 List<ServiceBusReceivedMessage> serviceBusMessages = new List<ServiceBusReceivedMessage>();
 
-                var mes = await _receiver.PeekMessageAsync(1);
-
+                
                 var messages = await _receiver.ReceiveMessagesAsync(1000, TimeSpan.FromSeconds(30)); // You have read one message
 
 
@@ -104,7 +118,7 @@ namespace Unidas.MS.Telemetria.Application.Services.Queue
 
                         list.Add(obj);
                     }
-                    catch(JsonNotValidException ex)
+                    catch (JsonNotValidException ex)
                     {
                         //logar o erro
                     }
@@ -146,6 +160,6 @@ namespace Unidas.MS.Telemetria.Application.Services.Queue
             _messages.Remove(guid);
         }
 
-       
+
     }
 }

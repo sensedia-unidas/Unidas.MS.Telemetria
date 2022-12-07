@@ -24,9 +24,9 @@ namespace Unidas.MS.Telemetria.Application.Commands.Queue
         {
             _serviceBusService = serviceBusService;
         }
-        public async Task Execute<T>( T events)
+        public async Task Execute<T>(List<T> events)
         {
-            await _serviceBusService.SendAsync(events);
+            await _serviceBusService.SendListAsync(events);
         }
 
     }
