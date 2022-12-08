@@ -52,7 +52,7 @@ namespace Unidas.MS.Telemetria.Application.Services.Queue
             // create a batch 
             ServiceBusMessageBatch tempMessageBatch = await _sender.CreateMessageBatchAsync();
 
-
+            
 
             for (int i = 0; i < jsons.Count(); i++)
             {
@@ -96,25 +96,37 @@ namespace Unidas.MS.Telemetria.Application.Services.Queue
             {
                 var guid = Guid.NewGuid();
 
+                List<ServiceBusReceivedMessage> serviceLists = new List<ServiceBusReceivedMessage>();
                 List<T> list = new List<T>();
                 List<ServiceBusReceivedMessage> serviceBusMessages = new List<ServiceBusReceivedMessage>();
 
+                //var messages = await _receiver.ReceiveMessagesAsync(1000, TimeSpan.FromSeconds(30)); // You have read one message
+
+                var messages = await _receiver.ReceiveMessagesAsync(1000, TimeSpan.FromSeconds(3)); // You have read one message
+                serviceBusMessages.AddRange(messages);
+
+                while (messages.Count > 0 && serviceBusMessages.Count < 1000)
+                {
+                    messages = await _receiver.ReceiveMessagesAsync(1000, TimeSpan.FromSeconds(3)); // You have read one message
+                    serviceBusMessages.AddRange(messages);
+                }
+
+
                 
-                var messages = await _receiver.ReceiveMessagesAsync(1000, TimeSpan.FromSeconds(30)); // You have read one message
 
 
                 //if (message == null) // Continue till you receive no message from the Queue
                 //    break;
 
 
-                foreach (var message in messages)
+                foreach (var message in serviceBusMessages)
                 {
                     try
                     {
                         var json = message.Body.ToString();
                         T obj = Util.Deserialize<T>(json);
 
-                        serviceBusMessages.Add(message);
+                        //serviceBusMessages.Add(message);
 
                         list.Add(obj);
                     }
@@ -153,8 +165,8 @@ namespace Unidas.MS.Telemetria.Application.Services.Queue
                 throw new Exception();
 
             foreach (var message in messages)
-            {
-                await _receiver.CompleteMessageAsync(message);
+            {                
+                await _receiver.CompleteMessageAsync(message).ConfigureAwait(false);
             }
 
             _messages.Remove(guid);
