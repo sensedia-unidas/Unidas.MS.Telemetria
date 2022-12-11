@@ -1,0 +1,30 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: unidas-ms-telemetria
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unidas-ms-telemetria
+  template:
+    metadata:
+      labels:
+        app: unidas-ms-telemetria
+    spec:
+      containers:
+        - name: telemetria
+          image: acrsensediadevhml.azurecr.io/unidas.ms.telemetria:latest
+          ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: unidas-ms-telemetria
+spec:
+    type: LoadBalancer
+    ports:
+    - port: 80
+    selector:
+        app: unidas-ms-telemetria
